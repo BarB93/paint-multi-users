@@ -1,13 +1,12 @@
 import React from 'react'
-import '../styles/tools-row.scss'
+import '../styles/settings-row.scss'
 
 const SettingsRow = () => {
     return (
-        <div className='tools-row tools-row--bottom'>
+        <div className='settings-row'>
 
         </div>
     )
 }
-
 
 export default SettingsRow

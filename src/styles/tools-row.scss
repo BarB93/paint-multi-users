@@ -2,19 +2,121 @@
 
 .tools-row {
     position: absolute;
+
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
     width: 100%;
     height: $tool-row-height;
+    padding: $row-padding;
+    border-bottom: 1px solid #f6f6f6;
     background: #fff;
+    z-index: 10;
+
+    &__left, &__right {
+        display: flex;
+    }
     
-    &--top {
-        z-index: 10;
-        border-bottom: 1px solid #f6f6f6;
+    &__btn {
+        position: relative;
+        height: 25px;
+        border: none;
+        color: $disable-icon-color;
+        cursor: pointer;
+        transition: transform .1s linear;
+        background: #fff;
+
+        & + &:not(.tool-control){
+            margin-left: 20px;
+        }
+
+
+        &.tool-control {
+            & + & {
+                margin-left: 15px;
+            }
+
+            &--redo {
+                margin-left: 5px !important;
+            }
+
+            .control-icon {
+                color: $active-icon-color;
+                transition: transform .1s linear;
+            }
+
+            &.disable {
+                cursor: default;
+
+                .control-icon {
+                    color: #928787;
+                }
+            }
+
+            &:not(.disable):active {
+
+                control-icon--line {
+                    transform: rotate(100deg);
+                    height: 23px;
+                }
+        
+                .control-icon--undo {
+                    &:active {
+                        transform: rotate(-20deg);
+                    }
+                }
+
+                .control-icon--redo {
+                    &:active {
+                        transform: rotate(20deg);
+                    }
+                }
+
+            }
+        }
+
+        .tool-icon, .control-icon {
+            height: 25px;
+            color: #928787;
+            transition: transform .1s linear;
+        }
+
+        &.active {
+            .tool-icon{
+                color: $active-icon-color;
+            }
+            &:after {
+                position: absolute;
+                bottom: -5px;
+                content: "";
+                display: block;
+                width: 25px;
+                height: 2px;
+
+                background: #000;
+            }
+        }
+
+        &.disable {
+            color: $disable-icon-color;
+            
+            &:hover {
+                color: $disable-icon-color;
+                cursor: default;
+            }
+        }
+
+        &:hover {
+            .tool-icon, .control-icon {
+                color: $active-icon-color;
+            }
+        }
     }
 
-    &--bottom {
-        top: $tool-row-height;
-        box-shadow: 0 10px 15px rgba($color: #000000, $alpha: 0.05);
+    .tool-icon--line {
+        height: 23px;
+        transform: rotate(100deg);
     }
+
 }

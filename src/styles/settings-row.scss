@@ -1,0 +1,17 @@
+@import '../styles/variables.scss';
+
+.settings-row {
+    position: absolute;
+    top: $tool-row-height;
+
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: $tool-row-height;
+    padding: $row-padding;
+    border-bottom: 1px solid #f6f6f6;
+    background: #fff;
+    z-index: 10;
+    box-shadow: 0 10px 15px rgba($color: #000000, $alpha: 0.05);
+}
