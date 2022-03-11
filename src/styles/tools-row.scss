@@ -27,7 +27,7 @@
         transition: transform .1s linear;
         background: #fff;
 
-        &--color {
+        &_color {
             border: 1px solid #000;
         }
 
@@ -40,7 +40,7 @@
                 margin-left: 15px;
             }
 
-            &--redo {
+            &_redo {
                 margin-left: 5px !important;
             }
 
@@ -59,18 +59,18 @@
 
             &:not(.disable):active {
 
-                control-icon--line {
+                control-icon_line {
                     transform: rotate(100deg);
                     height: 23px;
                 }
         
-                .control-icon--undo {
+                .control-icon_undo {
                     &:active {
                         transform: rotate(-20deg);
                     }
                 }
 
-                .control-icon--redo {
+                .control-icon_redo {
                     &:active {
                         transform: rotate(20deg);
                     }
@@ -91,13 +91,15 @@
             }
             &:after {
                 position: absolute;
+                left: 50%;
                 bottom: -5px;
                 content: "";
                 display: block;
                 width: 25px;
                 height: 2px;
-
                 background: #000;
+                
+                transform: translateX(-50%);
             }
         }
 
@@ -117,7 +119,7 @@
         }
     }
 
-    .tool-icon--line {
+    .tool-icon_line {
         height: 23px;
         transform: rotate(100deg);
     }
