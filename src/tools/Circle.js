@@ -1,6 +1,6 @@
 import Tool from "./Tool"
 
-export default class Rect extends Tool {
+export default class Circle extends Tool {
 
     constructor(canvas) {
         super(canvas)
@@ -27,26 +27,28 @@ export default class Rect extends Tool {
 
     mouseMoveHandler(e) {
         if (this.mouseDown) {
-            let currentX = e.pageX - e.target.offsetLeft
-            let currentY = e.pageY - e.target.offsetTop
-            let width = currentX - this.startX
-            let height = currentY - this.startY
-            this.draw(this.startX, this.startY, width, height)
+            const currentX = e.pageX - e.target.offsetLeft,
+                 currentY = e.pageY - e.target.offsetTop,
+                 width = currentX - this.startX,
+                 height = currentY - this.startY,
+                 radius = Math.sqrt(width**2 + height**2)
+            this.draw(this.startX, this.startY, radius)
         }
     }
 
-    draw(x, y, w, h) {
+    draw(x, y, r) {
         const img = new Image()
         img.src = this.saved
         img.onload = async () => {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
             this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height)
             this.ctx.beginPath()
-            this.ctx.rect(x, y, w, h)
+
+            // radius equal bigger value of width and height
+            this.ctx.arc(x, y, r, 0, 2 * Math.PI)
             this.ctx.fill()
             this.ctx.stroke()
         }
         
     }
-
 }

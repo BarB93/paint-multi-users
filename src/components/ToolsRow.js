@@ -8,6 +8,9 @@ import canvasState from '../store/canvasState'
 
 import Brush from '../tools/Brush'
 import Rect from '../tools/Rect'
+import Circle from '../tools/Circle'
+import Line from '../tools/Line'
+import Eraser from '../tools/Eraser'
 
 import '../styles/tools-row.scss'
 
@@ -21,6 +24,9 @@ const BRUSH   = 'brush',
 const toolMap  = {}
 toolMap[BRUSH] = Brush
 toolMap[RECT]  = Rect
+toolMap[CIRCLE] = Circle 
+toolMap[LINE] = Line
+toolMap[ERASER] = Eraser
 
 const ToolsRow = () => {
     const [activeTool, setActiveTool] = React.useState(BRUSH)
