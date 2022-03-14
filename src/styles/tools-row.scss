@@ -27,10 +27,6 @@
         transition: transform .1s linear;
         background: #fff;
 
-        &_color {
-            border: 1px solid #000;
-        }
-
         & + &:not(.tool-control){
             margin-left: 20px;
         }

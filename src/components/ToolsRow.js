@@ -21,11 +21,11 @@ const BRUSH   = 'brush',
       LINE    = 'line'
 
 // create map name tool to class tool
-const toolMap  = {}
-toolMap[BRUSH] = Brush
-toolMap[RECT]  = Rect
+const toolMap   = {}
+toolMap[BRUSH]  = Brush
+toolMap[RECT]   = Rect
 toolMap[CIRCLE] = Circle 
-toolMap[LINE] = Line
+toolMap[LINE]   = Line
 toolMap[ERASER] = Eraser
 
 const ToolsRow = () => {
@@ -49,16 +49,20 @@ const ToolsRow = () => {
             toolState.setTool(new toolMap[nameTool](canvasState.canvas))
             setActiveTool(nameTool)
     } 
+
+    const handleChangeColor = (e) => {
+        toolState.setFillColor(e.target.value)
+    }
    
     return (
         <div className='tools-row'>
             <div className='tools-row__left' onClick={handleClickTool}>
-                <button className={`tools-row__btn tools-row__tool ${activeTool === BRUSH ? 'active' : ''}`} data-tool={BRUSH} ><FontAwesomeIcon className='tool-icon' icon={faPaintBrush} /></button>
-                <button className={`tools-row__btn tools-row__tool ${activeTool === RECT ? 'active' : ''}`}  data-tool={RECT} ><FontAwesomeIcon className='tool-icon' icon={faSquare} /></button>
-                <button className={`tools-row__btn tools-row__tool ${activeTool === CIRCLE ? 'active' : ''}`} data-tool={CIRCLE}><FontAwesomeIcon className='tool-icon' icon={faCircle} /></button>
-                <button className={`tools-row__btn tools-row__tool ${activeTool === ERASER ? 'active' : ''}`} data-tool={ERASER}><FontAwesomeIcon className='tool-icon' icon={faEraser} /></button>
-                <button className={`tools-row__btn tools-row__tool ${activeTool === LINE ? 'active' : ''}`} data-tool={LINE}><FontAwesomeIcon className='tool-icon tool-icon_line' icon={faSlash} /></button>
-                <input  className={`tools-row__btn tools-row__btn_color`} type='color' />
+                <button className={`tools-row__btn tools-row__tool ${activeTool === BRUSH ? 'active' : ''}`}  data-tool={BRUSH} ><FontAwesomeIcon className='tool-icon' icon={faPaintBrush} /></button>
+                <button className={`tools-row__btn tools-row__tool ${activeTool === RECT ? 'active' : ''}`}   data-tool={RECT} ><FontAwesomeIcon className='tool-icon' icon={faSquare} /></button>
+                <button className={`tools-row__btn tools-row__tool ${activeTool === CIRCLE ? 'active' : ''}`} data-tool={CIRCLE} ><FontAwesomeIcon className='tool-icon' icon={faCircle} /></button>
+                <button className={`tools-row__btn tools-row__tool ${activeTool === ERASER ? 'active' : ''}`} data-tool={ERASER} ><FontAwesomeIcon className='tool-icon' icon={faEraser} /></button>
+                <button className={`tools-row__btn tools-row__tool ${activeTool === LINE ? 'active' : ''}`}   data-tool={LINE} ><FontAwesomeIcon className='tool-icon tool-icon_line' icon={faSlash} /></button>
+                <input  className={`tools-row__btn input-color tools-row__btn_color`} type='color' onChange={handleChangeColor} />
             </div>
             <div className='tools-row__right'>
                 <button className='tools-row__btn tool-control tool-control_undo'><FontAwesomeIcon className="control-icon control-icon_undo" icon={faRotateLeft} /></button>
