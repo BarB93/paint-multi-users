@@ -1,0 +1,23 @@
+.control__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    width: 25px;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 3px;
+    transition: translate 3s linear;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:active{
+        transform: translateY(1px);
+    }
+
+    &-icon {
+        color: #000;
+    }
+}
