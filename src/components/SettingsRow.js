@@ -12,7 +12,7 @@ const SettingsRow = () => {
         toolState.setLineWidth(width)
     }
 
-    const handleChangeLineWidth = (e) => {
+    const changeLineWidthHandler = (e) => {
         const min = parseInt(inputStrokeWidthRef.current.getAttribute('min'))
         const max = parseInt(inputStrokeWidthRef.current.getAttribute('max'))
         const currentWidth = parseInt(e.currentTarget.value)
@@ -32,7 +32,7 @@ const SettingsRow = () => {
         }
     }
 
-    const handleClickIncrease = () => {
+    const increaseStrokeWidthHandler = () => {
         const max = inputStrokeWidthRef.current.getAttribute('max')
 
         if (strokeWidthValue < max) {
@@ -44,7 +44,7 @@ const SettingsRow = () => {
         }
     }
 
-    const handleClickDecrease = () => {
+    const decreaseStrokeWidthHandler = () => {
         const min = inputStrokeWidthRef.current.getAttribute('min')
 
         if (strokeWidthValue > min) {
@@ -56,7 +56,7 @@ const SettingsRow = () => {
         }
     }
 
-    const handleChangeColor = (e) => {
+    const changeColorHandler = (e) => {
         toolState.setStrokeColor(e.target.value)
     }
 
@@ -64,12 +64,12 @@ const SettingsRow = () => {
         <div className='settings-row'>
             <label className='settings-row__label-line-width' htmlFor='line-width'>Толщина линии</label>
             <div className='settings-row__wrapper-calc-width'>
-                <ButtonCalc classType='minus' handleClick={handleClickDecrease}></ButtonCalc>
-                <input ref={inputStrokeWidthRef} onChange={handleChangeLineWidth} id='line-width' className='settings-row__line-width' type='number' value={strokeWidthValue} min={1} max={50} />
-                <ButtonCalc classType='plus' handleClick={handleClickIncrease}></ButtonCalc>
+                <ButtonCalc classType='minus' handleClick={decreaseStrokeWidthHandler}></ButtonCalc>
+                <input ref={inputStrokeWidthRef} onChange={changeLineWidthHandler} id='line-width' className='settings-row__line-width' type='number' value={strokeWidthValue} min={1} max={50} />
+                <ButtonCalc classType='plus' handleClick={increaseStrokeWidthHandler}></ButtonCalc>
             </div>
             <label className='settings-row__label-stroke-color' htmlFor='stroke-color'>Цвет линии</label>
-            <input id='stroke-color' className='settings-row__stroke-color input-color' type='color' onChange={handleChangeColor} />
+            <input id='stroke-color' className='settings-row__stroke-color input-color' type='color' onChange={changeColorHandler} />
         </div>
     )
 }

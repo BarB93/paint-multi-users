@@ -31,7 +31,7 @@ toolMap[ERASER] = Eraser
 
 const ToolsRow = observer(() => {
 
-    const handleClickTool = (e) => {
+    const changeToolHandler = (e) => {
         const $targetTool = e.target.closest('.tools-row__tool')
         let nameTool
 
@@ -49,19 +49,19 @@ const ToolsRow = observer(() => {
         toolState.setTool(new toolMap[nameTool](canvasState.canvas), nameTool)
     } 
 
-    const handleChangeColor = (e) => {
+    const changeColorHandler = (e) => {
         toolState.setFillColor(e.target.value)
     }
    
     return (
         <div className='tools-row'>
-            <div className='tools-row__left' onClick={handleClickTool}>
+            <div className='tools-row__left' onClick={changeToolHandler}>
                 <button className={`tools-row__btn tools-row__tool ${toolState.toolName === BRUSH ? 'active' : ''}`}  data-tool={BRUSH} ><FontAwesomeIcon className='tool-icon' icon={faPaintBrush} /></button>
                 <button className={`tools-row__btn tools-row__tool ${toolState.toolName === RECT ? 'active' : ''}`}   data-tool={RECT} ><FontAwesomeIcon className='tool-icon' icon={faSquare} /></button>
                 <button className={`tools-row__btn tools-row__tool ${toolState.toolName === CIRCLE ? 'active' : ''}`} data-tool={CIRCLE} ><FontAwesomeIcon className='tool-icon' icon={faCircle} /></button>
                 <button className={`tools-row__btn tools-row__tool ${toolState.toolName === ERASER ? 'active' : ''}`} data-tool={ERASER} ><FontAwesomeIcon className='tool-icon' icon={faEraser} /></button>
                 <button className={`tools-row__btn tools-row__tool ${toolState.toolName === LINE ? 'active' : ''}`}   data-tool={LINE} ><FontAwesomeIcon className='tool-icon tool-icon_line' icon={faSlash} /></button>
-                <input  className={`tools-row__btn input-color tools-row__btn_color`} type='color' onChange={handleChangeColor} />
+                <input  className={`tools-row__btn input-color tools-row__btn_color`} type='color' onChange={changeColorHandler} />
             </div>
             <div className='tools-row__right'>
                 <button className='tools-row__btn tool-control tool-control_undo'><FontAwesomeIcon className="control-icon control-icon_undo" icon={faRotateLeft} /></button>
