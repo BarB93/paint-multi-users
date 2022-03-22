@@ -1,10 +1,59 @@
-import React from 'react'
+import React, {useState, useRef} from 'react'
 import toolState from '../store/toolState'
 import '../styles/settings-row.scss'
+import ButtonCalc from './controls/ButtonCalc/ButtonCalc'
 
 const SettingsRow = () => {
+    const [strokeWidthValue, setStrokeWidthValue] = useState(1)
+    const inputStrokeWidthRef = useRef()
+
+    const setLineWidth = (width) => {
+        setStrokeWidthValue(width)
+        toolState.setLineWidth(width)
+    }
+
     const handleChangeLineWidth = (e) => {
-        toolState.setLineWidth(e.target.value)
+        const min = parseInt(inputStrokeWidthRef.current.getAttribute('min'))
+        const max = parseInt(inputStrokeWidthRef.current.getAttribute('max'))
+        const currentWidth = parseInt(e.currentTarget.value)
+        
+        switch(true) {
+            case isNaN(currentWidth) : 
+                setLineWidth(1)
+                break;
+            case max < currentWidth :
+                setLineWidth(max)
+                break;
+            case min > currentWidth :
+                setLineWidth(min)
+                break;
+            default :
+                setLineWidth(currentWidth)
+        }
+    }
+
+    const handleClickIncrease = () => {
+        const max = inputStrokeWidthRef.current.getAttribute('max')
+
+        if (strokeWidthValue < max) {
+            setStrokeWidthValue(prev => {
+                const num = prev + 1
+                toolState.setLineWidth(num)
+                return num
+            })
+        }
+    }
+
+    const handleClickDecrease = () => {
+        const min = inputStrokeWidthRef.current.getAttribute('min')
+
+        if (strokeWidthValue > min) {
+            setStrokeWidthValue(prev => {
+                const num = prev - 1
+                toolState.setLineWidth(num)
+                return num
+            })
+        }
     }
 
     const handleChangeColor = (e) => {
@@ -14,7 +63,11 @@ const SettingsRow = () => {
     return (
         <div className='settings-row'>
             <label className='settings-row__label-line-width' htmlFor='line-width'>Толщина линии</label>
-            <input onChange={handleChangeLineWidth} id='line-width' className='settings-row__line-width' type='number' defaultValue={1} min={1} max={50} />
+            <div className='settings-row__wrapper-calc-width'>
+                <ButtonCalc classType='minus' handleClick={handleClickDecrease}></ButtonCalc>
+                <input ref={inputStrokeWidthRef} onChange={handleChangeLineWidth} id='line-width' className='settings-row__line-width' type='number' value={strokeWidthValue} min={1} max={50} />
+                <ButtonCalc classType='plus' handleClick={handleClickIncrease}></ButtonCalc>
+            </div>
             <label className='settings-row__label-stroke-color' htmlFor='stroke-color'>Цвет линии</label>
             <input id='stroke-color' className='settings-row__stroke-color input-color' type='color' onChange={handleChangeColor} />
         </div>

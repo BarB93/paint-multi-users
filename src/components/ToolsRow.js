@@ -1,4 +1,5 @@
 import React from 'react'
+import { observer } from 'mobx-react-lite'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaintBrush, faSquare, faEraser, faSlash , faRotateLeft, faRotateRight} from '@fortawesome/free-solid-svg-icons'
 import { faCircle, faFloppyDisk } from '@fortawesome/free-regular-svg-icons'
@@ -28,26 +29,24 @@ toolMap[CIRCLE] = Circle
 toolMap[LINE]   = Line
 toolMap[ERASER] = Eraser
 
-const ToolsRow = () => {
-    const [activeTool, setActiveTool] = React.useState(BRUSH)
+const ToolsRow = observer(() => {
 
     const handleClickTool = (e) => {
         const $targetTool = e.target.closest('.tools-row__tool')
         let nameTool
 
-            if (!$targetTool) {
-                return
-            }
+        if (!$targetTool) {
+            return
+        }
 
-            nameTool = $targetTool.dataset.tool 
+        nameTool = $targetTool.dataset.tool 
 
-            // check data-tool attribute and name tool in map exist 
-            if (!nameTool || !toolMap[nameTool]) {
-                return
-            }
+        // check data-tool attribute and name tool in map exist 
+        if (!nameTool && !toolMap[nameTool]) {
+            return
+        }
 
-            toolState.setTool(new toolMap[nameTool](canvasState.canvas))
-            setActiveTool(nameTool)
+        toolState.setTool(new toolMap[nameTool](canvasState.canvas), nameTool)
     } 
 
     const handleChangeColor = (e) => {
@@ -57,11 +56,11 @@ const ToolsRow = () => {
     return (
         <div className='tools-row'>
             <div className='tools-row__left' onClick={handleClickTool}>
-                <button className={`tools-row__btn tools-row__tool ${activeTool === BRUSH ? 'active' : ''}`}  data-tool={BRUSH} ><FontAwesomeIcon className='tool-icon' icon={faPaintBrush} /></button>
-                <button className={`tools-row__btn tools-row__tool ${activeTool === RECT ? 'active' : ''}`}   data-tool={RECT} ><FontAwesomeIcon className='tool-icon' icon={faSquare} /></button>
-                <button className={`tools-row__btn tools-row__tool ${activeTool === CIRCLE ? 'active' : ''}`} data-tool={CIRCLE} ><FontAwesomeIcon className='tool-icon' icon={faCircle} /></button>
-                <button className={`tools-row__btn tools-row__tool ${activeTool === ERASER ? 'active' : ''}`} data-tool={ERASER} ><FontAwesomeIcon className='tool-icon' icon={faEraser} /></button>
-                <button className={`tools-row__btn tools-row__tool ${activeTool === LINE ? 'active' : ''}`}   data-tool={LINE} ><FontAwesomeIcon className='tool-icon tool-icon_line' icon={faSlash} /></button>
+                <button className={`tools-row__btn tools-row__tool ${toolState.toolName === BRUSH ? 'active' : ''}`}  data-tool={BRUSH} ><FontAwesomeIcon className='tool-icon' icon={faPaintBrush} /></button>
+                <button className={`tools-row__btn tools-row__tool ${toolState.toolName === RECT ? 'active' : ''}`}   data-tool={RECT} ><FontAwesomeIcon className='tool-icon' icon={faSquare} /></button>
+                <button className={`tools-row__btn tools-row__tool ${toolState.toolName === CIRCLE ? 'active' : ''}`} data-tool={CIRCLE} ><FontAwesomeIcon className='tool-icon' icon={faCircle} /></button>
+                <button className={`tools-row__btn tools-row__tool ${toolState.toolName === ERASER ? 'active' : ''}`} data-tool={ERASER} ><FontAwesomeIcon className='tool-icon' icon={faEraser} /></button>
+                <button className={`tools-row__btn tools-row__tool ${toolState.toolName === LINE ? 'active' : ''}`}   data-tool={LINE} ><FontAwesomeIcon className='tool-icon tool-icon_line' icon={faSlash} /></button>
                 <input  className={`tools-row__btn input-color tools-row__btn_color`} type='color' onChange={handleChangeColor} />
             </div>
             <div className='tools-row__right'>
@@ -71,6 +70,6 @@ const ToolsRow = () => {
             </div>
         </div>
     )
-}
+})
 
 export default ToolsRow 
