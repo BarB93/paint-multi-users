@@ -52,7 +52,18 @@ const ToolsRow = observer(() => {
     const changeColorHandler = (e) => {
         toolState.setFillColor(e.target.value)
     }
-   
+
+    const undoHandler = (e) => {
+        canvasState.undo()
+    }
+
+    const redoHandler = (e) => {
+        canvasState.redo()
+    }
+
+    const isUndoDisabled = !canvasState.undoList.length > 0 
+    const isRedoDisabled = !canvasState.redoList.length > 0
+
     return (
         <div className='tools-row'>
             <div className='tools-row__left' onClick={changeToolHandler}>
@@ -64,8 +75,8 @@ const ToolsRow = observer(() => {
                 <input  className={`tools-row__btn input-color tools-row__btn_color`} type='color' onChange={changeColorHandler} />
             </div>
             <div className='tools-row__right'>
-                <button className='tools-row__btn tool-control tool-control_undo'><FontAwesomeIcon className="control-icon control-icon_undo" icon={faRotateLeft} /></button>
-                <button className='tools-row__btn tool-control tool-control_redo disable'><FontAwesomeIcon className="control-icon control-icon_redo" icon={faRotateRight} /></button>
+                <button className='tools-row__btn tool-control tool-control_undo' disabled={isUndoDisabled} onClick={undoHandler}><FontAwesomeIcon className="control-icon control-icon_undo" icon={faRotateLeft} /></button>
+                <button className='tools-row__btn tool-control tool-control_redo' disabled={isRedoDisabled} onClick={redoHandler}><FontAwesomeIcon className="control-icon control-icon_redo" icon={faRotateRight} /></button>
                 <button className='tools-row__btn tool-control tool-control_save'><FontAwesomeIcon className="control-icon control-icon_save" icon={faFloppyDisk} /></button>
             </div>
         </div>
