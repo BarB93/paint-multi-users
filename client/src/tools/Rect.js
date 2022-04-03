@@ -2,8 +2,8 @@ import Tool from "./Tool"
 
 export default class Rect extends Tool {
 
-    constructor(canvas) {
-        super(canvas)
+    constructor(canvas, socket, id) {
+        super(canvas, socket, id)
         this.listen()
     }
 
@@ -14,6 +14,21 @@ export default class Rect extends Tool {
     }
 
     mouseUpHandler(e) {
+        if(this.mouseDown) {
+            this.socket.send(JSON.stringify({
+                method: 'draw',
+                id: this.id,
+                figure: {
+                    type: 'rect',
+                    x: this.startX,
+                    y: this.startY,
+                    w: this.width,
+                    h: this.height,
+                    color: this.ctx.fillStyle,
+                }
+            }))
+        }
+
         this.mouseDown = false
     }
 
@@ -29,16 +44,16 @@ export default class Rect extends Tool {
         if (this.mouseDown) {
             let currentX = e.pageX - e.target.offsetLeft
             let currentY = e.pageY - e.target.offsetTop
-            let width = currentX - this.startX
-            let height = currentY - this.startY
-            this.draw(this.startX, this.startY, width, height)
+            this.width = currentX - this.startX
+            this.height = currentY - this.startY
+            this.draw(this.startX, this.startY, this.width, this.height)
         }
     }
 
     draw(x, y, w, h) {
         const img = new Image()
         img.src = this.saved
-        img.onload = async () => {
+        img.onload = () => {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
             this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height)
             this.ctx.beginPath()
@@ -47,6 +62,14 @@ export default class Rect extends Tool {
             this.ctx.stroke()
         }
         
+    }
+
+    static staticDraw(ctx, x, y, w, h, color) {
+        ctx.fillStyle = color
+        ctx.beginPath()
+        ctx.rect(x, y, w, h)
+        ctx.fill()
+        ctx.stroke()   
     }
 
 }

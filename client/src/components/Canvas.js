@@ -6,6 +6,7 @@ import {Modal, Button, Form} from 'react-bootstrap'
 import canvasState from '../store/canvasState'
 import toolState from '../store/toolState'
 import Brush from '../tools/Brush'
+import Rect from '../tools/Rect'
 
 import '../styles/canvas.scss'
 
@@ -51,11 +52,13 @@ const Canvas = observer(() => {
     const drawHandler = (msg) => {
         const figure = msg.figure
         const ctx = canvasRef.current.getContext('2d')
-        debugger
         // eslint-disable-next-line default-case
         switch (figure.type) {
             case 'brush':
                 Brush.draw(ctx, figure.x, figure.y)
+                break
+            case 'rect':
+                Rect.staticDraw(ctx, figure.x, figure.y, figure.w, figure.h, figure.color)
                 break
             case 'finish':
                 ctx.beginPath()
