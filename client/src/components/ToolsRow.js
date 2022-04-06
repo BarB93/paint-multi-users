@@ -61,6 +61,16 @@ const ToolsRow = observer(() => {
         canvasState.redo()
     }
 
+    const downloadHandler = () => {
+        const dataUrl = canvasState.canvas.toDataURL()
+        const a = document.createElement('a')
+        a.href = dataUrl
+        a.download = canvasState.sessionId + ".jpg"
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+    }
+
     const isUndoDisabled = !canvasState.undoList.length > 0 
     const isRedoDisabled = !canvasState.redoList.length > 0
 
@@ -77,7 +87,7 @@ const ToolsRow = observer(() => {
             <div className='tools-row__right'>
                 <button className='tools-row__btn tool-control tool-control_undo' disabled={isUndoDisabled} onClick={undoHandler}><FontAwesomeIcon className="control-icon control-icon_undo" icon={faRotateLeft} /></button>
                 <button className='tools-row__btn tool-control tool-control_redo' disabled={isRedoDisabled} onClick={redoHandler}><FontAwesomeIcon className="control-icon control-icon_redo" icon={faRotateRight} /></button>
-                <button className='tools-row__btn tool-control tool-control_save'><FontAwesomeIcon className="control-icon control-icon_save" icon={faFloppyDisk} /></button>
+                <button className='tools-row__btn tool-control tool-control_save' onClick={downloadHandler}><FontAwesomeIcon className="control-icon control-icon_save" icon={faFloppyDisk} /></button>
             </div>
         </div>
     )

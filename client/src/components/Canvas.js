@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import {useParams} from 'react-router-dom'
 import {observer} from 'mobx-react-lite'
 import {Modal, Button, Form} from 'react-bootstrap'
+import axios from 'axios'
 
 import canvasState from '../store/canvasState'
 import toolState from '../store/toolState'
@@ -18,6 +19,18 @@ const Canvas = observer(() => {
 
     useEffect(() => {
         canvasState.setCanvas(canvasRef.current)
+        axios.get(`http://localhost:5000/image?id=${params.id}`)
+            .then(res => {
+                if(res.data) {
+                    const ctx = canvasState.canvas.getContext('2d')
+                    const img = new Image()
+                    img.src = res.data
+                    img.onload = () => {
+                        ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+                        ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
+                    }
+                }
+            })
     }, [])
 
     useEffect(() => {
@@ -50,24 +63,32 @@ const Canvas = observer(() => {
     }, [canvasState.username])
 
     const drawHandler = (msg) => {
-        const figure = msg.figure
-        const ctx = canvasRef.current.getContext('2d')
-        // eslint-disable-next-line default-case
-        switch (figure.type) {
-            case 'brush':
-                Brush.draw(ctx, figure.x, figure.y)
-                break
-            case 'rect':
-                Rect.staticDraw(ctx, figure.x, figure.y, figure.w, figure.h, figure.color)
-                break
-            case 'finish':
-                ctx.beginPath()
-                break
+        if(canvasRef.current) {
+
+            const figure = msg.figure
+            const ctx = canvasRef.current.getContext('2d')
+            // eslint-disable-next-line default-case
+            switch (figure.type) {
+                case 'brush':
+                    Brush.draw(ctx, figure.x, figure.y)
+                    break
+                case 'rect':
+                    Rect.staticDraw(ctx, figure.x, figure.y, figure.w, figure.h, figure.color)
+                    break
+                case 'finish':
+                    ctx.beginPath()
+                    break
+            }
         }
     }
 
     const mouseDownHandler = () => {
         canvasState.pushToUndo(canvasRef.current.toDataURL())
+    }
+
+    const mouseUpHandler = () => {
+        axios.post(`http://localhost:5000/image?id=${params.id}`, {img: canvasRef.current.toDataURL()})
+            .then(response => console.log('Client:',response.data))
     }
 
     const closeModalHandler = () => {
@@ -94,7 +115,7 @@ const Canvas = observer(() => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <canvas ref={canvasRef} onMouseDown={() => mouseDownHandler()} width={800} height={600} />
+            <canvas ref={canvasRef} onMouseDown={mouseDownHandler} onMouseUp={mouseUpHandler} width={800} height={600} />
         </div>
     )
 })
