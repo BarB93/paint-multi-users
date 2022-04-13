@@ -59,7 +59,6 @@ export default class Rect extends Tool {
             this.ctx.beginPath()
             this.ctx.rect(x, y, w, h)
             this.ctx.fill()
-            this.ctx.stroke()
         }
         
     }
@@ -68,8 +67,7 @@ export default class Rect extends Tool {
         ctx.fillStyle = color
         ctx.beginPath()
         ctx.rect(x, y, w, h)
-        ctx.fill()
-        ctx.stroke()   
+        ctx.fill() 
     }
 
 }

@@ -51,6 +51,7 @@ const ToolsRow = observer(() => {
 
     const changeColorHandler = (e) => {
         toolState.setFillColor(e.target.value)
+        toolState.setStrokeColor(e.target.value)
     }
 
     const undoHandler = (e) => {

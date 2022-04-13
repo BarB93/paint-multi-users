@@ -7,6 +7,7 @@ import axios from 'axios'
 import canvasState from '../store/canvasState'
 import toolState from '../store/toolState'
 import Brush from '../tools/Brush'
+import Eraser from '../tools/Eraser'
 import Rect from '../tools/Rect'
 
 import '../styles/canvas.scss'
@@ -72,6 +73,9 @@ const Canvas = observer(() => {
                 case 'brush':
                     Brush.draw(ctx, figure.x, figure.y)
                     break
+                case 'eraser':
+                    Eraser.draw(ctx, figure.x, figure.y)
+                    break
                 case 'rect':
                     Rect.staticDraw(ctx, figure.x, figure.y, figure.w, figure.h, figure.color)
                     break
@@ -115,7 +119,7 @@ const Canvas = observer(() => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <canvas ref={canvasRef} onMouseDown={mouseDownHandler} onMouseUp={mouseUpHandler} width={800} height={600} />
+            <canvas ref={canvasRef} onMouseDown={mouseDownHandler} onMouseUp={mouseUpHandler} width={1000} height={700} />
         </div>
     )
 })

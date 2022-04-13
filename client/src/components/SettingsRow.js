@@ -56,10 +56,6 @@ const SettingsRow = () => {
         }
     }
 
-    const changeColorHandler = (e) => {
-        toolState.setStrokeColor(e.target.value)
-    }
-
     return (
         <div className='settings-row'>
             <label className='settings-row__label-line-width' htmlFor='line-width'>Толщина линии</label>
@@ -68,8 +64,6 @@ const SettingsRow = () => {
                 <input ref={inputStrokeWidthRef} onChange={changeLineWidthHandler} id='line-width' className='settings-row__line-width' type='number' value={strokeWidthValue} min={1} max={50} />
                 <ButtonCalc classType='plus' handleClick={increaseStrokeWidthHandler}></ButtonCalc>
             </div>
-            <label className='settings-row__label-stroke-color' htmlFor='stroke-color'>Цвет линии</label>
-            <input id='stroke-color' className='settings-row__stroke-color input-color' type='color' onChange={changeColorHandler} />
         </div>
     )
 }
